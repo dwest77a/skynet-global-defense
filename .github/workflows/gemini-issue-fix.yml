@@ -1,4 +1,5 @@
 # Key step inputs inside .github/workflows/gemini-issue-fix.yml
+
 - name: Authenticate to Google Cloud (Workload Identity Federation)
   uses: google-github-actions/auth@v2
   with:
