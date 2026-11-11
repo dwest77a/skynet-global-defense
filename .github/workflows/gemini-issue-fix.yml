@@ -1,29 +1,38 @@
 # Key step inputs inside .github/workflows/gemini-issue-fix.yml
+name: Gemini Issue fix
+
+on:
+  issues:
+    types: [opened]
+
 permissions:
   contents: write
   issues: write
   pull-requests: write
   id-token: write
 
-steps:
-- name: Authenticate to Google Cloud (Workload Identity Federation)
-  uses: google-github-actions/auth@v2
-  with:
-    workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-    service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-- name: Run Gemini Agent on Vertex AI
-  uses: google-github-actions/run-gemini-cli@v0
-  env:
-    GOOGLE_GENAI_USE_VERTEXAI: "true"
-    GOOGLE_CLOUD_PROJECT: "prj-d-ral-vtxai-kwr9"
-    GOOGLE_CLOUD_LOCATION: "europe-west2"
-    GH_TOKEN: ${{ secrets.REPO_PR_PAT }} # Fine-grained PAT or GitHub App token
-  with:
-    gemini_model: "gemini-2.5-pro"
-    use_vertex_ai: true
-    gcp_project_id: "prj-d-ral-vtxai-kwr9"
-    gcp_location: "europe-west2"
-    prompt: |
-      Resolve GitHub Issue #${{ github.event.issue.number }} following GEMINI.md and AGENTS.md:
-      Title: ${{ github.event.issue.title }}
-      Body: ${{ github.event.issue.body }}
+jobs:
+  gemini-fix:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Authenticate to Google Cloud (Workload Identity Federation)
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+    - name: Run Gemini Agent on Vertex AI
+      uses: google-github-actions/run-gemini-cli@v0
+      env:
+        GOOGLE_GENAI_USE_VERTEXAI: "true"
+        GOOGLE_CLOUD_PROJECT: "prj-d-ral-vtxai-kwr9"
+        GOOGLE_CLOUD_LOCATION: "europe-west2"
+        GH_TOKEN: ${{ secrets.REPO_PR_PAT }} # Fine-grained PAT or GitHub App token
+      with:
+        gemini_model: "gemini-2.5-pro"
+        use_vertex_ai: true
+        gcp_project_id: "prj-d-ral-vtxai-kwr9"
+        gcp_location: "europe-west2"
+        prompt: |
+          Resolve GitHub Issue #${{ github.event.issue.number }} following GEMINI.md and AGENTS.md:
+          Title: ${{ github.event.issue.title }}
+          Body: ${{ github.event.issue.body }}
