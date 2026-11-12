@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   gemini-fix:
+    environment: Net_v1
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
