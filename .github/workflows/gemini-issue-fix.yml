@@ -24,19 +24,20 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-    # - name: Run Gemini Agent on Vertex AI
-    #   uses: google-github-actions/run-gemini-cli@v0
-    #   env:
-    #     GOOGLE_GENAI_USE_VERTEXAI: "true"
-    #     GOOGLE_CLOUD_PROJECT: "prj-d-ral-vtxai-kwr9"
-    #     GOOGLE_CLOUD_LOCATION: "europe-west2"
-    #     GH_TOKEN: ${{ secrets.REPO_PR_PAT }} # Fine-grained PAT or GitHub App token
-    #   with:
-    #     gemini_model: "gemini-2.5-pro"
-    #     use_vertex_ai: true
-    #     gcp_project_id: "prj-d-ral-vtxai-kwr9"
-    #     gcp_location: "europe-west2"
-    #     prompt: |
-    #       Resolve GitHub Issue #${{ github.event.issue.number }} following GEMINI.md and AGENTS.md:
-    #       Title: ${{ github.event.issue.title }}
-    #       Body: ${{ github.event.issue.body }}
+    - name: Run Gemini Agent on Vertex AI
+      uses: google-github-actions/run-gemini-cli@v0
+      env:
+        GOOGLE_GENAI_USE_VERTEXAI: "true"
+        GOOGLE_CLOUD_PROJECT: "prj-d-ral-vtxai-kwr9"
+        GOOGLE_CLOUD_LOCATION: "europe-west2"
+        GH_TOKEN: ${{ secrets.REPO_PR_PAT }} # Fine-grained PAT or GitHub App token
+      with:
+        gemini_model: "gemini-2.5-pro"
+        use_vertex_ai: true
+        gcp_project_id: "prj-d-ral-vtxai-kwr9"
+        gcp_location: "europe-west2"
+        prompt: "Add a src/skynet/__init__.py initialisation file to the checked out repo, following GEMINI.md and AGENTS.md and submit a pull request"
+        # prompt: |
+        #   Resolve GitHub Issue #${{ github.event.issue.number }} following GEMINI.md and AGENTS.md:
+        #   Title: ${{ github.event.issue.title }}
+        #   Body: ${{ github.event.issue.body }}
