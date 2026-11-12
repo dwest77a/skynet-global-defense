@@ -31,6 +31,7 @@ jobs:
         GOOGLE_CLOUD_PROJECT: "prj-d-ral-vtxai-kwr9"
         GOOGLE_CLOUD_LOCATION: "europe-west2"
         GH_TOKEN: ${{ secrets.REPO_PR_PAT }} # Fine-grained PAT or GitHub App token
+        GEMINI_CLI_TRUST_WORKSPACE: true
       with:
         gemini_model: "gemini-2.5-pro"
         use_vertex_ai: true
