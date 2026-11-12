@@ -15,11 +15,13 @@ jobs:
   gemini-fix:
     runs-on: ubuntu-latest
     steps:
-    - name: Authenticate to Google Cloud (Workload Identity Federation)
+    - uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud (Service Account Key)
       uses: google-github-actions/auth@v2
       with:
-        workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
     - name: Run Gemini Agent on Vertex AI
       uses: google-github-actions/run-gemini-cli@v0
       env:
